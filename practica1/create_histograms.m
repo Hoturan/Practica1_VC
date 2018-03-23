@@ -20,8 +20,8 @@ im = im3;
 % Takes image im, divides it into n*n subimages, and shows an histogram for 
 % each component (RGB). Lastly, it shows the original image divided by
 % subimages
-im = imread('soccer/barcelona/01.jpg');
-n = 4;
+im = imread('soccer/barcelona/03.jpg');
+n = 3;
 nbins = 50;
 %weird matlab
 [nrows,ncols,p] = size(im);
@@ -41,7 +41,10 @@ for i=1:n
         figure
         subplot(3,1,1), imhist(im(row_index:row_index+nrows-1,col_index:col_index+ncols-1,1),nbins), title(['row: ',num2str(i),' col: ',num2str(j),' R']) 
         subplot(3,1,2), imhist(im(row_index:row_index+nrows-1,col_index:col_index+ncols-1,2),nbins), title(['row: ',num2str(i),' col: ',num2str(j),' G']) 
-        subplot(3,1,3), imhist(im(row_index:row_index+nrows-1,col_index:col_index+ncols-1,3),nbins), title(['row: ',num2str(i),' col: ',num2str(j),' B']) 
+        subplot(3,1,3), imhist(im(row_index:row_index+nrows-1,col_index:col_index+ncols-1,3),nbins), title(['row: ',num2str(i),' col: ',num2str(j),' B'])
+        if (i == 2 && j == 2)
+            imModel = im(row_index:row_index+nrows-1,col_index:col_index+ncols-1,:);
+        end
         %segmenting the original image by subimages
         imseg(row_index,:,:) = 255;
         imseg(:,col_index,:) = 255;
@@ -51,6 +54,8 @@ end
 %shows segmented image
 figure, imshow(imseg);
 
+%Selected segment to use as model
+figure, imshow(imModel)
 
 
 %% Color plot of the whole image withour segmentation
