@@ -51,7 +51,19 @@ end
 %shows segmented image
 figure, imshow(imseg);
 
-        
+
+
+%% Color plot of the whole image withour segmentation
+
+imRed = im(:,:,1);
+imGreen = im(:,:,2);
+imBlue = im(:,:,3);
+
+[yRed] = imhist(imRed);
+[yGreen] = imhist(imGreen);
+[yBlue, x] = imhist(imBlue);
+
+figure, plot (x, yRed, 'Red', x, yGreen, 'Green', x, yBlue, 'Blue'), title('RGB plot');
 
 
 
