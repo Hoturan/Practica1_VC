@@ -57,8 +57,7 @@ figure, imshow(imseg);
 %Selected segment to use as model
 figure, imshow(imModel)
 
-
-%% Color plot of the whole image withour segmentation
+%% Color plot of the whole image without segmentation
 
 imRed = im(:,:,1);
 imGreen = im(:,:,2);
@@ -70,7 +69,29 @@ imBlue = im(:,:,3);
 
 figure, plot (x, yRed, 'Red', x, yGreen, 'Green', x, yBlue, 'Blue'), title('RGB plot');
 
+%% Normalize ilumination of an Image
 
+im = imread('soccer/barcelona/03.jpg');
+figure, imshow(im), title('Model Image');
+im2 = imread('soccer/barcelona/02.jpg');
+figure, imshow(im2), title('Image to normalize');
 
+% Enhance contrast using histogram equalization
+im2norm = histeq(im2,imhist(im));
+figure, imshow(im2norm), title('Image normalized');
 
+%% try function
+im = imread('soccer/barcelona/03.jpg');
+[imS, Model] = segment(im, 3, 2, 2);
+figure, imshow(imS)
+figure, imshow(Model)
 
+%% Pairwise Distance
+im = imread('soccer/barcelona/03.jpg');
+im2 = imread('soccer/barcelona/02.jpg');
+
+[imS, Model] = segment(im, 3, 2, 2);
+
+D1 = pdist2(imhist(Model),imhist(im2));
+IM2 = imshowpair(Model, imref2d(size(Model)), im2, imref2d(size(im2)));
+%C = normxcorr2(Model,im2);
