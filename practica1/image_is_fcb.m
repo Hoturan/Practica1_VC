@@ -17,7 +17,7 @@ for i=1:n
         row_index = 1 + (i-1)*nrows;
         col_index = 1 + (j-1)*ncols;
         subimage = im(row_index:row_index+nrows-1,col_index:col_index+ncols-1,:);
-        score_subimage = subimage_is_blaugrana2(subimage);
+        score_subimage = subimage_is_blaugrana3(subimage);
         %if score_subimage > 0.2
         %    fprintf('row %d, col %d:  %f...\n',i,j,score_subimage);
         score = score + score_subimage;
