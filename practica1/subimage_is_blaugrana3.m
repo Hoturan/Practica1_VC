@@ -1,6 +1,6 @@
-function [score] = subimage_is_blaugrana(im)
+function [score] = subimage_is_blaugrana3(im, im2)
 
-im2 = imread('model.jpg');
+
 imnorm = histeq(im,imhist(im2));
 % Get means of first image
 meanRed1 = mean2(imnorm(:,:,1));
