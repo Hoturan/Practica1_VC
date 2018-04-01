@@ -87,11 +87,27 @@ figure, imshow(imS)
 figure, imshow(Model)
 
 %% Pairwise Distance
-im = imread('soccer/barcelona/03.jpg');
+im = imread('model.jpg');
 im2 = imread('soccer/barcelona/02.jpg');
-
-[imS, Model] = segment(im, 3, 2, 2);
-
-D1 = pdist2(imhist(Model),imhist(im2));
-IM2 = imshowpair(Model, imref2d(size(Model)), im2, imref2d(size(im2)));
+[rowsA colsB num] = size(im2);
+im3 = imresize(im,[rowsA colsB]);
+figure,imshow(im2)
+figure,imshow(im3)
+ssimval = ssim(im2,im3)
 %C = normxcorr2(Model,im2);
+%% new
+im = imread('soccer/barcelona/03.jpg');
+im2 = imread('modelo1.png');
+[rowsA colsB num] = size(im);
+im3 = imresize(im2,[rowsA colsB]);
+absDiffImage = psnr(im3, im)
+%% new 2
+i1 = imread('soccer/barcelona/03.jpg');
+i2 = imread('soccer/barcelona/03.jpg');
+i1=i1(:,:,1);
+[c1,n]=imhist(i1);
+c1=c1/size(i1,1)/size(i1,2);
+i2=i2(:,:,1);
+[c2,n2]=imhist(i2);
+c2=c2/size(i2,1)/size(i2,2);
+d=pdist2(c1',c2')
