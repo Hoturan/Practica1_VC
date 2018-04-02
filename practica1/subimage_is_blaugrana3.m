@@ -13,7 +13,7 @@ deltaR = abs(double(meanRed2) - double(meanRed1));
 deltaG = abs(double(meanGreen2) - double(meanGreen1));
 deltaB = abs(double(meanBlue2) - double(meanBlue1));
 
-if deltaR < 20 && deltaG < 20 && deltaB < 20
+if deltaR < 25 && deltaG < 25 && deltaB < 25
     score = 20/(deltaR + deltaG + deltaB);
 else
     score = 0;

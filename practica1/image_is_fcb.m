@@ -1,8 +1,8 @@
 function [result] = image_is_fcb(im)
 
 im = histeq(im);
-n =  10;
-score_threshold = 1.0;
+n =  20;
+score_threshold = 3.0;
 %at the moment, the score just counts how how many subimages are considered
 %to be blaugrana
 score = 0;
@@ -27,7 +27,7 @@ for i=1:n
         score_subimage_2 = subimage_is_blaugrana2(subimage);
         score_subimage_3 = subimage_is_blaugrana3(subimage, model1);
 
-        score_subimage = (score_subimage_2);%+ score_subimage_3*2) / 2;
+        score_subimage = (score_subimage_2+ score_subimage_3) / 2;
         
         
         %if score_subimage > 0.2
