@@ -25,7 +25,7 @@ for i=1:n
         subimage = im(row_index:row_index+nrows-1,col_index:col_index+ncols-1,:);
         
         score_subimage_2 = subimage_is_blaugrana2(subimage);
-        score_subimage_3 = subimage_is_blaugrana3(subimage, model1);
+        score_subimage_3 = subimage_is_blaugrana3(subimage, model1, 25, 20);
 
         score_subimage = (score_subimage_2+ score_subimage_3) / 2;
         

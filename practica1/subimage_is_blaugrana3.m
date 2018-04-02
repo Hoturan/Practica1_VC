@@ -1,4 +1,4 @@
-function [score] = subimage_is_blaugrana3(im, model)
+function [score] = subimage_is_blaugrana3(im, model, threshold, dividend)
 
 % Get means of first image
 meanRed1 = mean2(im(:,:,1));
@@ -13,8 +13,8 @@ deltaR = abs(double(meanRed2) - double(meanRed1));
 deltaG = abs(double(meanGreen2) - double(meanGreen1));
 deltaB = abs(double(meanBlue2) - double(meanBlue1));
 
-if deltaR < 25 && deltaG < 25 && deltaB < 25
-    score = 20/(deltaR + deltaG + deltaB);
+if deltaR < threshold && deltaG < threshold && deltaB < threshold
+    score = dividend/(deltaR + deltaG + deltaB);
 else
     score = 0;
 end
