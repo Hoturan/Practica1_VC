@@ -87,8 +87,9 @@ figure, imshow(imS)
 figure, imshow(Model)
 
 %% Pairwise Distance
-im = imread('model.jpg');
-im2 = imread('soccer/barcelona/02.jpg');
+im = imread('model1.jpg');
+im2o = imread('soccer/barcelona/03.jpg');
+[akhbs, im2] = segment(im2o, 3, 2, 2);
 [rowsA colsB num] = size(im2);
 im3 = imresize(im,[rowsA colsB]);
 figure,imshow(im2)

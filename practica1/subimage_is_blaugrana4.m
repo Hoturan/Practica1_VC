@@ -10,8 +10,8 @@ i2=i2(:,:,1);
 c2=c2/size(i2,1)/size(i2,2);
 d=pdist2(c1',c2');
 
-if d < 0.10
-    score = 0.02/d;
+if d < 0.20
+    score = 0.001/d;
 else
     score = 0;
 end
