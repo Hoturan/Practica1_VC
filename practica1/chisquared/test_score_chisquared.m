@@ -1,6 +1,6 @@
 %when debug is true, the test outputs the result for every image
-debug = false;
-threshold = 0.151;
+debug = true;
+threshold = 0.0501;
 
 global mod1 mod2 mod3 mod4 mod5 mod6
 
@@ -22,9 +22,7 @@ for team = teams'
     fcb_count = 0;
     for image = images'
         im = imread(['../soccer/',team.name,'/',image.name]);
-        im = histeq(im);
         score = get_score_chisquared(im);
-        %score = min(score);
         if score < threshold 
             fcb_count = fcb_count + 1;
         end
