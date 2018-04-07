@@ -1,6 +1,6 @@
 %when debug is true, the test outputs the result for every image
 debug = false;
-threshold = 0.22;
+threshold = 0.151;
 
 global mod1 mod2 mod3 mod4 mod5 mod6
 

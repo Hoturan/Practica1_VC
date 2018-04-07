@@ -1,6 +1,6 @@
 function [score, value] = subimage_chisquared(im,mod)
 
-nbins = 20;
+nbins = 10;
 
 nelem = numel(im)/3;
 nelemmod = numel(mod)/3;
