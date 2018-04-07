@@ -1,8 +1,24 @@
 %when debug is true, the test outputs the result for every image
 debug = false;
-threshold = 0.15;
+threshold = 0.38;
+
+global mod2 mod3 mod5 
 
 teams = dir('../soccer');
+%mod1 = imread('../models/01.jpg');
+mod2 = imread('../models/04.jpg');
+mod3 = imread('../models/20.jpg');
+%mod4 = imread('../models/23.jpg');
+mod5 = imread('../models/29.jpg');
+%mod6 = imread('../models/39.jpg');
+
+%mod1 = histeq(mod1);
+mod2 = histeq(mod2);
+mod3 = histeq(mod3);
+%mod4 = histeq(mod4);
+mod5 = histeq(mod5);
+%mod6 = histeq(mod6);
+
 % remove . and .. directories
 teams(1:2) = [];
 for team = teams'
@@ -13,8 +29,10 @@ for team = teams'
     fcb_count = 0;
     for image = images'
         im = imread(['../soccer/',team.name,'/',image.name]);
+        im = histeq(im);
         score = get_score_chisquared(im);
-        if score < threshold
+        %score = min(score);
+        if score < threshold 
             fcb_count = fcb_count + 1;
         end
         if debug
