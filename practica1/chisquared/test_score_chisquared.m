@@ -4,6 +4,7 @@ threshold = 0.0494;
 
 global mod1 mod2 mod3 mod4 mod5 mod6
 
+
 teams = dir('../soccer');
 mod1 = imread('../models/01.jpg');
 mod2 = imread('../models/04.jpg');
@@ -28,7 +29,7 @@ for image = images'
     end
 end
 fprintf(' model detects %.2f %% of FCB images.\n',fcb_count/n*100);
-false_negatives = 100 - fcb_count/n*100;
+false_negatives_rate = (n-fcb_count)/n * 100;
 
 
 % remove . , .. and barcelona directories
@@ -54,11 +55,12 @@ for team = teams'
         end
     end
     fprintf(' model detects %.2f %% of FCB images.\n',fcb_count/n*100);
-     false_positives = false_positives + fcb_count/n*100;
+    false_postives = false_positives + fcb_count;
 end
+false_positives_rate = double(false_positives)/total_size * 100;
 
 fprintf('------------------------------------------.\n');
-fprintf(' model detects  %.2f %% as false positives.\n', false_positives/8);
-fprintf(' model detects  %.2f %% as false negatives.\n', false_negatives/8);
+fprintf(' model detects  %.2f %% as false positives.\n', false_positives_rate);
+fprintf(' model detects  %.2f %% as false negatives.\n', false_negatives_rate);
 
 
