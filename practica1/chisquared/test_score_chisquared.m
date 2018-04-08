@@ -19,6 +19,7 @@ images(1:2) = [];
 n = length(images);
 fcb_count = 0;
 for image = images'
+        
     im = imread(['../soccer/','barcelona','/',image.name]);
     score = get_score_chisquared(im);
     if score < threshold 
