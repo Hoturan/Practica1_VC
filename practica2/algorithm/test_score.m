@@ -1,32 +1,43 @@
 %when debug is true, the test outputs the result for every image
 debug = false;
 
-global acmilan1, acmilan2, acmilan3
+global acmilan1 acmilan2 acmilan3
 acmilan1 = imread('../models/acmilan/35.jpg');
+acmilan2 = imread('../models/acmilan/07.jpg');
+acmilan3 = imread('../models/acmilan/11.jpg');
 
-global barcelona1, barcelona2, barcelona3
+global barcelona1 barcelona2 barcelona3
 barcelona1 = imread('../models/barcelona/04.jpg');
+barcelona2 = imread('../models/barcelona/20.jpg');
+barcelona3 = imread('../models/barcelona/29.jpg');
 
-global chelsea1, chelsea2, chelsea3
+global chelsea1 chelsea2 chelsea3
 chelsea1 = imread('../models/chelsea/16.jpg');
+chelsea2 = imread('../models/chelsea/10.jpg');
+chelsea3 = imread('../models/chelsea/18.jpg');
 
-
-global juventus1, juventus2, juventus3
+global juventus1 juventus2 juventus3
 juventus1 = imread('../models/juventus/27.jpg');
+juventus2 = imread('../models/juventus/09.jpg');
+juventus3 = imread('../models/juventus/36.jpg');
 
 
-
-global liverpool1, liverpool2, liverpool3
+global liverpool1 liverpool2 liverpool3
 liverpool1 = imread('../models/liverpool/25.jpg');
+liverpool2 = imread('../models/liverpool/11.jpg');
+liverpool3 = imread('../models/liverpool/24.jpg');
 
 
-
-global madrid1, madrid2, madrid3
+global madrid1 madrid2 madrid3
 madrid1 = imread('../models/madrid/31.jpg');
+madrid2 = imread('../models/madrid/17.jpg');
+madrid3 = imread('../models/madrid/35.jpg');
 
-global psv1, psv2, psv3
+
+global psv1 psv2 psv3
 psv1 = imread('../models/psv/31.jpg');
-
+psv2 = imread('../models/psv/17.jpg');
+psv3 = imread('../models/psv/39.jpg');
 
 
 teams = dir('../soccer');

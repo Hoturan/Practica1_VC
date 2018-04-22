@@ -1,12 +1,12 @@
 function [result] = get_team(im)
 
-global acmilan1, acmilan2, acmilan3
-global barcelona1, barcelona2, barcelona3
-global chelsea1, chelsea2, chelsea3
-global juventus1, juventus2, juventus3
-global liverpool1, liverpool2, liverpool3
-global madrid1, madrid2, madrid3
-global psv1, psv2, psv3
+global acmilan1 acmilan2 acmilan3
+global barcelona1 barcelona2 barcelona3
+global chelsea1 chelsea2 chelsea3
+global juventus1 juventus2 juventus3
+global liverpool1 liverpool2 liverpool3
+global madrid1 madrid2 madrid3
+global psv1 psv2 psv3
 
 
 s1 = repmat(realmax,1,3);

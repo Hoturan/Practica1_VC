@@ -1,5 +1,5 @@
 %when debug is true, the test outputs the result for every image
-debug = false;
+debug = true;
 threshold = 0.0494;
 
 global mod1 mod2 mod3 mod4 mod5 mod6
@@ -58,7 +58,7 @@ for team = teams'
     fprintf(' model detects %.2f %% of FCB images.\n',fcb_count/n*100);
     false_postives = false_positives + fcb_count;
 end
-false_positives_rate = double(false_positives)/total_size * 100;
+false_positives_rate = false_positives/(total_size * 100);
 
 fprintf('------------------------------------------.\n');
 fprintf(' model detects  %.2f %% as false positives.\n', false_positives_rate);
