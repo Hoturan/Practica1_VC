@@ -1,4 +1,4 @@
-function [freq, freq_emph, freq_app] = image_hist_RGB_3d(imname,n,gamma)
+function [freq, freq_emph, freq_app] = image_hist_RGB_3d(im,n,gamma)
 
 % Creates 3D-histogram from an RGB image
 % in the form of balls in the RGB cube
@@ -52,15 +52,11 @@ if n == 1
 end
 
 %% Reading the image
-disp('Starting...')
-disp('Reading the image...');
 
-im = imread(imname);    % loading the image
 s = size(im);
 im = double(im);
 
 %% Assigning the pixels to the histogram cells
-disp('Assigning the pixels to the histogram cells...');
 step = 255/n;
 cell_no = ceil(im/step); % numbers of cells for all pixels
 % cell_no can be computed as 0, so we assing them to the first cell
@@ -68,7 +64,6 @@ cell_no(cell_no==0) = 1;
 
 
 %% Computing the frequencies
-disp('Computing the frequencies...');
 % initialization of vector, which will be used for saving the frequencies
 freq = zeros(n^3,1); 
 
@@ -106,7 +101,7 @@ freq(cells_to_compensate,:,:) = freq(cells_to_compensate,:,:) / maxmin_ratio;
 freq(:,cells_to_compensate,:) = freq(:,cells_to_compensate,:) / maxmin_ratio;
 freq(:,:,cells_to_compensate) = freq(:,:,cells_to_compensate) / maxmin_ratio;
 
-
+%{
 %% Emphasizing small frequencies by gamma
 maxfreq = max(max(max(freq))); %maximum frequency
 if gamma ~=1
@@ -206,3 +201,4 @@ end
 
 %% End
 disp('Finished.')
+%}
