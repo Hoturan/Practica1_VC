@@ -11,6 +11,11 @@ acmilan1 = imread(strcat(model_used, 'acmilan/35.jpg'));
 acmilan2 = imread(strcat(model_used,'acmilan/07.jpg'));
 acmilan3 = imread(strcat(model_used, 'acmilan/11.jpg'));
 
+global australia1 australia2 australia3
+australia1 = imread(strcat(model_used, 'australia/37.jpg'));
+australia2 = imread(strcat(model_used, 'australia/38.jpg'));
+australia3 = imread(strcat(model_used, 'australia/15.jpg'));
+
 global barcelona1 barcelona2 barcelona3
 barcelona1 = imread(strcat(model_used, 'barcelona/04.jpg'));
 barcelona2 = imread(strcat(model_used, 'barcelona/20.jpg'));
