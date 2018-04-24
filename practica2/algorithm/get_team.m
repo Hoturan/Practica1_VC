@@ -18,7 +18,7 @@ s6 = repmat(realmax,1,3);
 s7 = repmat(realmax,1,3);
 
 %specify which compare function we are using
-cmp = @subimage_cityblock;
+cmp = @subimage_3D_cityblock;
 
 n = 4;
 [imrows,imcols,~] = size(im);
@@ -50,7 +50,7 @@ for i=1:20:imrows-nrows
 end
 
 %minimum = index with minimum value
-[~,minimum] =  min([mean(s1),mean(s2),mean(s3),mean(s4),mean(s5),mean(s6),mean(s7)]);
+[~,minimum] =  min([min(s1),min(s2),min(s3),min(s4),min(s5),min(s6),min(s7)]);
 
 if minimum == 1
     result = 'acmilan';
