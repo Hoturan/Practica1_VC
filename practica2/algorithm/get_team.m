@@ -20,10 +20,12 @@ s7 = repmat(realmax,1,3);
 %specify which compare function we are using
 cmp = @subimage_cityblock;
 
-n = 7;
+n = 4;
 [imrows,imcols,~] = size(im);
 nrows = imrows/n;
 ncols = imcols/n;
+
+%im = histeq(im, 10);
 for i=1:20:imrows-nrows
     for j=1:20:imcols-ncols
         %get subimage
@@ -68,6 +70,6 @@ else
     result = 'error';
 end
     
-
+%display(result)
 
 end

@@ -1,4 +1,4 @@
-function [freq, freq_emph, freq_app] = image_hist_RGB_3d(im,n,gamma)
+function [freq] = image_hist_RGB_3d(im,n,gamma)
 
 % Creates 3D-histogram from an RGB image
 % in the form of balls in the RGB cube
@@ -105,9 +105,9 @@ freq(:,:,cells_to_compensate) = freq(:,:,cells_to_compensate) / maxmin_ratio;
 %% Emphasizing small frequencies by gamma
 maxfreq = max(max(max(freq))); %maximum frequency
 if gamma ~=1
-    disp(['Recalculating frequencies by means of gamma=' num2str(gamma) ' ...'])
+    %disp(['Recalculating frequencies by means of gamma=' num2str(gamma) ' ...'])
     if gamma == 0
-        disp('!!! Warning: GAMMA is zero!');
+        %disp('!!! Warning: GAMMA is zero!');
         freq_emph = zeros(size(freq)); %zeros everywhere
         freq_emph(freq~=0) = 1; %ones; the same result as if .^0 was computed
         maxfreq = 1;
@@ -123,8 +123,8 @@ end
 
 
 %% Drawing the histogram
-disp('Drawing the histogram...')
-figure
+%disp('Drawing the histogram...')
+%figure
 % whitebg([0.9 0.9 0.9])   
 maxradius = 255/n;
 [Rss Gss Bss] = sphere(16); % mesh for unit sphere
@@ -192,7 +192,7 @@ axis square
 
 %% Compute FREQ_APP
 if nargout>2
-    disp('Rearranging frequencies into the structure as appeared in the figure...')
+    %disp('Rearranging frequencies into the structure as appeared in the figure...')
     freq_app = zeros(n,n,n);
     for w = 1:n
         freq_app(:,:,w) = (flipud((freq(:,:,w))));
