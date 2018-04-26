@@ -20,7 +20,7 @@ s7 = repmat(realmax,1,3);
 s8 = repmat(realmax,1,3);
 
 %specify which compare function we are using
-cmp = @subimage_3D_cityblock;
+cmp = @subimage_3D_chisquared;
 
 n = 4;
 [imrows,imcols,~] = size(im);

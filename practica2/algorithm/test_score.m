@@ -57,23 +57,41 @@ if strcmp(teams(1).name, '.DS_Store')
     teams(1) = [];
 end
 
+keySet = {'acmilan', 'australia', 'barcelona', 'chelsea', 'juventus', 'liverpool', 'madrid', 'psv'};
+valueSet = [0 0 0 0 0 0 0 0];
+
 for team = teams'
     fprintf('analyzing %s... ',team.name);
     images = dir(['../soccer/',team.name]);
     images(1:2) = [];
     n = length(images);
     count = 0;
+    valueSet = [0 0 0 0 0 0 0 0];
+    cont = containers.Map(keySet,valueSet);
     for image = images'
         im = imread(['../soccer/',team.name,'/',image.name]);
         team_result = get_team(im);
-        if strcmp(team_result,team.name) 
-            count = count + 1;
-        end
+       
+        cont(team_result) = cont(team_result) + 1;
+ 
         if debug
             fprintf(' %s, result: %s\n',image.name,team_result);
         end
     end
-    fprintf(' model detects %.2f %% of %s images.\n',count/n*100,team.name);
+    
+    if debug
+         k = keys(cont);
+         val = values(cont);
+         for i = 1:length(cont)
+             if strcmp(k{i},team.name) 
+                fprintf(' model detects %.2f %% of %s images.\n',val{i}/n*100,team.name);
+             else
+                fprintf(' model detects %.2f %% as %s images.\n',val{i}/n*100,k{i});
+             end
+         end
+    else
+        fprintf(' model detects %.2f %% of %s images.\n',cont(team.name)/n*100,team.name);
+    end
 end
 
 
