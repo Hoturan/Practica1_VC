@@ -17,4 +17,4 @@ nelemmod = numel(mod)/3;
 freq = reshape(freq,1,nbins^3)./nelem;
 freqm = reshape(freqm,1,nbins^3)./nelemmod;
 
-distance = pdist2(freq, freqm, 'cityblock');
+distance = dist_chisq(freq, freqm);
