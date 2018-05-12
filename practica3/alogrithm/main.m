@@ -10,9 +10,9 @@ if strcmp(animals(1).name, '.DS_Store')
 end
 
 keySet = {'ant', 'beaver', 'crab', 'crayfish', 'crocodile', 'dolphin', 'dragonfly', 'elephant', 'emu', 'flamingo', 'kangaroo', 'panda'};
-valueSet = {[[]] [[]] [[]] [[]] [[]] [[]] [[]] [[]] [[]] [[]] [[]] [[]]};
+valueSet = {[] [] [] [] [] [] [] [] [] [] [] []};
 
-annMap = containers.Map(keySet,valueSet);
+annMap = containers.Map(keySet,valueSet, 'UniformValues',false);
 
 for animals = animals'
     files = dir(['../animals/',animals.name]);
@@ -23,7 +23,7 @@ for animals = animals'
         baseFileName = files(k).name;
         [filepath,name,ext] = fileparts(['../animals/',animals.name,'/',baseFileName]);
         if ext == ".mat"
-            annMap(animals.name) = [annMap(animals.name) ['../animals/',animals.name,'/',baseFileName]];
+            annMap(animals.name) = vertcat(annMap(animals.name), convertCharsToStrings(['../animals/',animals.name,'/',baseFileName]));
         else
             break
         end
