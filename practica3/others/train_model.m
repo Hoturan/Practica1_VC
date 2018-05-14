@@ -1,4 +1,4 @@
-function [categoryClassifier] = train_model
+%function [categoryClassifier] = train_model
 categories = {'ant', 'beaver', 'crab', 'crayfish', 'crocodile', 'dolphin', 'dragonfly', 'elephant', 'emu', 'flamingo', 'kangaroo', 'panda'};
 imds = imageDatastore(fullfile('../animals', categories), 'LabelSource', 'foldernames');
 tbl = countEachLabel(imds)
@@ -10,7 +10,7 @@ imds = splitEachLabel(imds, minSetCount, 'randomize');
 % Notice that each set now has exactly the same number of images.
 countEachLabel(imds)
 
-[trainingSet, validationSet] = splitEachLabel(imds, 0.2, 'randomize');
+[trainingSet, validationSet] = splitEachLabel(imds, 0.8, 'randomize');
 
 bag = bagOfFeatures(trainingSet);
 
@@ -25,7 +25,9 @@ xlabel('Visual word index')
 ylabel('Frequency of occurrence')
 
 categoryClassifier = trainImageCategoryClassifier(trainingSet, bag);
-confMatrix = evaluate(categoryClassifier, trainingSet);
 
+display('ei');
+
+confMatrix = evaluate(categoryClassifier, validationSet);
 mean(diag(confMatrix));
-end
+%end

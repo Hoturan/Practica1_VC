@@ -1,4 +1,4 @@
-function show_annotation(imgfile, annotation_file);
+function show_annotation(imgfile, annotation_file)
 %% 
 %% imgfile: string
 %% annotation_file: string

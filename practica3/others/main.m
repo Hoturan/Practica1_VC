@@ -16,6 +16,11 @@ end
 
 categoryClassifier = train_model;
 
+
+
+
+
+%{
 for animals = animals'
     files = dir(['../animals/',animals.name]);
     files(1:2) = [];
@@ -38,3 +43,4 @@ for animals = animals'
     end
     fprintf(' model detects %.2f %% of %s images.\n',countCorrect/(length(files)/2)*100,animals.name);
 end
+}%
