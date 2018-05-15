@@ -1,5 +1,5 @@
 function x = get_image_features(image,box_coord,contour)
-
+ figure, imshow(image)
 %for a certain image, we must extract features
 %this functions returns an array of features
     bb_hmin = box_coord(1);
@@ -21,9 +21,9 @@ function x = get_image_features(image,box_coord,contour)
 
     for cc = 1:size(contour,2)
        if cc < size(contour,2)
-          plot([contour(1,cc), contour(1,cc+1)], [contour(2,cc), contour(2,cc+1)], 'w','linewidth',1);
+          plot([contour(1,cc), contour(1,cc+1)], [contour(2,cc), contour(2,cc+1)], 'w','linewidth',4);
        else
-          plot([contour(1,cc), contour(1,1)], [contour(2,cc), contour(2,1)], 'w','linewidth',1);
+          plot([contour(1,cc), contour(1,1)], [contour(2,cc), contour(2,1)], 'w','linewidth',4);
        end
     end
 
@@ -31,23 +31,29 @@ function x = get_image_features(image,box_coord,contour)
     im = F.cdata;
 
     BW = im2bw(im, 0.5);
-    binaryIm = imfill(BW,'holes');
-    
+    binaryIm = imfill(BW,'holes'); %ERROR HERE WITH IMAGE image_0010.jpg
+    %figure, imshow(binaryIm)
     %feature 1: ratio between bb area and animal area
     ratio_animal_area_to_bb = animal_area / bb_area;
     
     
-    %feature 2: 
-    
-    
-    %feature 3:
+    %feature 2: regionprops 
+    regProps = regionprops(binaryIm);
+
+    %feature 3: area of legs
+    ee = strel('disk',30);
+    th = imopen(binaryIm,ee);
+    im = binaryIm-th;
+    im = bwareaopen(im,300);
+    areaLegs = regionprops(im);
+    areaLegs = areaLegs.Area;
     
     
     %......
     
     
     %return array of features (now it has only one feature
-    x = [ratio_animal_area_to_bb];
+    x = [ratio_animal_area_to_bb areaLegs];
 
 
 end
