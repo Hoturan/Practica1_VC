@@ -22,27 +22,23 @@ function x = get_image_features(img,box_coord,contour)
 
     
     %feature 1: ratio between bb area and animal area
-
     ratio_animal_area_to_bb = animal_area / bb_area;
        
+    %feature 2: compact area 
+    ee = strel('disk',10);
+    compact_area = bwarea(imopen(bw_img,ee));
     
-    %feature 2: regionprops 
+    %feature 3: regionprops 
     %regProps = regionprops(binaryIm);
 
-    %feature 3: area of legs
-    ee = strel('disk',30);
-    th = imopen(bw_img,ee);
-    im = bw_img-th;
-    im = bwareaopen(im,300);
-    areaLegs = regionprops(im);
-    areaLegs = areaLegs.Area;
+
     
     
     %......
     
     
     %return array of features (now it has only one feature
-    x = [ratio_animal_area_to_bb, areaLegs];
+    x = [ratio_animal_area_to_bb,compact_area];
 
 
 end
