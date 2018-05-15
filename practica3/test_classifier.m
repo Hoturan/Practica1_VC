@@ -5,6 +5,8 @@
 %podem fer experiments amb altres models
 clf = fitctree(X,y);
 
+
+
 %% provisional: aqui fer cross validation o el que sigui
 
 %missclassification rate
@@ -18,7 +20,7 @@ cp = cvpartition(y,'k',10); % Stratified cross-validation
 f = @(xtr,ytr,xte,yte)confusionmat(yte,classify(xte,xtr,ytr),'order',order);
 cfMat = crossval(f,X,y,'partition',cp);
 cfMat = reshape(sum(cfMat),12,12);
-%normalize matrix
+%normalize matrix (in rounded percentage)
 for r=1:12
     cfMat(r,:) = round(cfMat(r,:)./sum(cfMat(r,:)).*100);
 end

@@ -2,6 +2,8 @@ function x = get_image_features(img,box_coord,contour)
  %figure, imshow(image)
 %for a certain image, we must extract features
 %this functions returns an array of features
+    x = [];
+
     bb_hmin = box_coord(1);
     bb_hmax = box_coord(2);
     bb_wmin = box_coord(3);
@@ -23,11 +25,29 @@ function x = get_image_features(img,box_coord,contour)
     
     %feature 1: ratio between bb area and animal area
     ratio_animal_area_to_bb = animal_area / bb_area;
-       
-    %feature 2: compact area 
-    ee = strel('disk',10);
-    compact_area = bwarea(imopen(bw_img,ee));
+    x = [x,ratio_animal_area_to_bb];   
     
+    %feature 2: ratio of compact area to animal area
+    ee = strel('disk',10);
+    compact_img = imopen(bw_img,ee);
+    %to normalize
+    compact_ratio = bwarea(compact_img)/animal_area;
+    x = [x,compact_ratio];   
+
+    %*********REGIONPROPS FEATURES*******************
+    r = regionprops(bw_img,'MajorAxisLength','convexHull');
+    
+    %feature 3: major axis length
+    max_major_axis_length = max([r.MajorAxisLength]);
+    x = [x,max_major_axis_length];   
+    
+    %feature 4: difference animal area vs convex hulls areas
+    sum_convex_hulls_area = sum(cellfun(@(ch) polyarea(ch(:,1),ch(:,2)),{r.ConvexHull}));
+    ratio_convex_hull_to_animal_areas = animal_area/sum_convex_hulls_area;
+    x = [x,ratio_convex_hull_to_animal_areas];   
+
+    
+
     %feature 3: regionprops 
     %regProps = regionprops(binaryIm);
 
@@ -36,9 +56,6 @@ function x = get_image_features(img,box_coord,contour)
     
     %......
     
-    
-    %return array of features (now it has only one feature
-    x = [ratio_animal_area_to_bb,compact_area];
 
 
 end
