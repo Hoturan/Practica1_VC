@@ -14,6 +14,24 @@ function x = get_image_features(image,box_coord,contour)
     bb_area = (bb_hmax-bb_hmin)*(bb_wmax-bb_wmin);
     animal_area = polyarea(c_x,c_y);
     
+    % Turn contour and box into a filled binary image
+    blackRectangle = zeros(bb_hmax-bb_hmin, bb_wmax-bb_wmin);
+    ff=figure; set(ff, 'Visible', 'off'); clf; imagesc(blackRectangle); axis image; axis ij; hold on;
+    imshow(blackRectangle)
+
+    for cc = 1:size(contour,2)
+       if cc < size(contour,2)
+          plot([contour(1,cc), contour(1,cc+1)], [contour(2,cc), contour(2,cc+1)], 'w','linewidth',1);
+       else
+          plot([contour(1,cc), contour(1,1)], [contour(2,cc), contour(2,1)], 'w','linewidth',1);
+       end
+    end
+
+    F = getframe(gca);
+    im = F.cdata;
+
+    BW = im2bw(im, 0.5);
+    binaryIm = imfill(BW,'holes');
     
     %feature 1: ratio between bb area and animal area
     ratio_animal_area_to_bb = animal_area / bb_area;
