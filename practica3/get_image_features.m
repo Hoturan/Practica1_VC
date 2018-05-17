@@ -69,11 +69,33 @@ function x = get_image_features(img,box_coord,contour)
     avg_dist_to_centroid = mean(sqrt((c-centroid(1)).^2+(r-centroid(2)).^2));
     x = [x,avg_dist_to_centroid];
     
-    %feature 3: regionprops 
+    %feature 9: animal mean color
+     if size(img,3)==3
+        redChannel = img(:, :, 1);
+        greenChannel = img(:, :, 2);
+        blueChannel = img(:, :, 3);
+
+        meanR = mean(redChannel(bw_img));
+        meanG = mean(greenChannel(bw_img));
+        meanB = mean(blueChannel(bw_img));
+    else 
+        rgbImage = cat(3, img, img, img);
+        redChannel = rgbImage(:, :, 1);
+        greenChannel = rgbImage(:, :, 2);
+        blueChannel = rgbImage(:, :, 3);
+
+        meanR = mean(redChannel(bw_img));
+        meanG = mean(greenChannel(bw_img));
+        meanB = mean(blueChannel(bw_img));
+    end
+    
+     x = [x,[meanR meanG meanB]];
+   
     %regProps = regionprops(binaryIm);
 
-
-    
+    %feature 10: animal ROI histogram
+     %interestPoints = detectSURFFeatures(rgb2gray(img));  
+     %x = [x interestPoints];
     
     %......
     
