@@ -8,6 +8,8 @@ function x = get_image_features(img,box_coord,contour)
     bb_hmax = box_coord(2);
     bb_wmin = box_coord(3);
     bb_wmax = box_coord(4);
+    bbwidth = bb_wmax - bb_wmin;
+    bbheight = bb_hmax - bb_hmin;
     c_x = contour(1,:);
     c_y = contour(2,:);
     
@@ -16,16 +18,16 @@ function x = get_image_features(img,box_coord,contour)
     bw_img = roipoly(bb_img,c_x,c_y);
     
     %BOUNDING BOX AREA
-    bb_area = (bb_hmax-bb_hmin)*(bb_wmax-bb_wmin);
+    bb_area = bbheight*bbwidth;
     %ANIMAL AREA (bwarea returns area of white pixels)
     animal_area = bwarea(bw_img);
 
     
 
     
-    %feature 1: ratio between bb area and animal area
-    ratio_animal_area_to_bb = animal_area / bb_area;
-    x = [x,ratio_animal_area_to_bb];   
+    %feature 1: rectangularity -> ratio between bb area and animal area
+    rectangularity = animal_area / bb_area;
+    x = [x,rectangularity];   
     
     %feature 2: ratio of compact area to animal area
     ee = strel('disk',10);
@@ -35,19 +37,38 @@ function x = get_image_features(img,box_coord,contour)
     x = [x,compact_ratio];   
 
     %*********REGIONPROPS FEATURES*******************
-    r = regionprops(bw_img,'MajorAxisLength','convexHull');
+    r = regionprops(bw_img,'MajorAxisLength','convexHull','Perimeter','Centroid','MinorAxisLength');
     
     %feature 3: major axis length
     max_major_axis_length = max([r.MajorAxisLength]);
-    x = [x,max_major_axis_length];   
+    x = [x,max_major_axis_length];
     
-    %feature 4: difference animal area vs convex hulls areas
+    %feature 4: minor axis length
+    max_minor_axis_length = max([r.MinorAxisLength]);
+    x = [x,max_minor_axis_length];
+    
+    %feature 5: difference animal area vs convex hulls areas
     sum_convex_hulls_area = sum(cellfun(@(ch) polyarea(ch(:,1),ch(:,2)),{r.ConvexHull}));
     ratio_convex_hull_to_animal_areas = animal_area/sum_convex_hulls_area;
     x = [x,ratio_convex_hull_to_animal_areas];   
 
-    
+    %feature 6: compacity
+    perimeter = sum([r.Perimeter]);
+    compacity = perimeter^2/animal_area;
+    x = [x,compacity];
 
+    %feature 7: elongation
+    elongation = max(bbheight,bbwidth)/min(bbheight,bbwidth);
+    x = [x,elongation];
+    
+    %feature 8: average distance to centroid
+    centroid = r.Centroid;
+    imge = imerode(bw_img,strel('disk',1));
+    %find non-zero indices in bw image
+    [r,c] = find(bw_img-imge);
+    avg_dist_to_centroid = mean(sqrt((c-centroid(1)).^2+(r-centroid(2)).^2));
+    x = [x,avg_dist_to_centroid];
+    
     %feature 3: regionprops 
     %regProps = regionprops(binaryIm);
 
