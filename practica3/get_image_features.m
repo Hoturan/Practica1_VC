@@ -34,17 +34,18 @@ function x = get_image_features(img,box_coord,contour)
     compact_img = imopen(bw_img,ee);
     %to normalize
     compact_ratio = bwarea(compact_img)/animal_area;
-    x = [x,compact_ratio];   
+    x = [x,compact_ratio];
+    
 
     %*********REGIONPROPS FEATURES*******************
     r = regionprops(bw_img,'MajorAxisLength','convexHull','Perimeter','Centroid','MinorAxisLength');
     
     %feature 3: major axis length
-    max_major_axis_length = max([r.MajorAxisLength]);
+    max_major_axis_length = max([r.MajorAxisLength])/animal_area;
     x = [x,max_major_axis_length];
     
     %feature 4: minor axis length
-    max_minor_axis_length = max([r.MinorAxisLength]);
+    max_minor_axis_length = max([r.MinorAxisLength])/animal_area;
     x = [x,max_minor_axis_length];
     
     %feature 5: difference animal area vs convex hulls areas
@@ -65,34 +66,57 @@ function x = get_image_features(img,box_coord,contour)
     centroid = r.Centroid;
     imge = imerode(bw_img,strel('disk',1));
     %find non-zero indices in bw image
-    [r,c] = find(bw_img-imge);
+    contour_img = bw_img-imge;
+    [r,c] = find(contour_img);
     avg_dist_to_centroid = mean(sqrt((c-centroid(1)).^2+(r-centroid(2)).^2));
     x = [x,avg_dist_to_centroid];
     
+    %dolphin feature (caca)
+%     mid1 = round(3*bbwidth/7);
+%     mid2 = round(4*bbwidth/5);
+%     left_area = bwarea(bw_img(:,1:mid1));
+%     middle_area = bwarea(bw_img(:,mid1:mid2));
+%     right_area = bwarea(bw_img(:,mid2:end));
+%     dolphin_feature = (left_area+right_area)/4/middle_area;
+%     x = [x,dolphin_feature];
+    
     %feature 9: animal mean color
      if size(img,3)==3
-        redChannel = img(:, :, 1);
-        greenChannel = img(:, :, 2);
-        blueChannel = img(:, :, 3);
-
+         rgb_img = img;
+     else
+         rgb_img = cat(3, img, img, img);
+     end
+        redChannel = rgb_img(:, :, 1);
+        greenChannel = rgb_img(:, :, 2);
+        blueChannel = rgb_img(:, :, 3);
+        
         meanR = mean(redChannel(bw_img));
         meanG = mean(greenChannel(bw_img));
         meanB = mean(blueChannel(bw_img));
-    else 
-        rgbImage = cat(3, img, img, img);
-        redChannel = rgbImage(:, :, 1);
-        greenChannel = rgbImage(:, :, 2);
-        blueChannel = rgbImage(:, :, 3);
-
-        meanR = mean(redChannel(bw_img));
-        meanG = mean(greenChannel(bw_img));
-        meanB = mean(blueChannel(bw_img));
-    end
-    
      x = [x,[meanR meanG meanB]];
    
+     %feature 10 codi de cadena
+     
+     [L, num] = bwlabel(bw_img, 8);
+        count_pixels_per_obj = sum(bsxfun(@eq,L(:),1:num));
+        [~,ind] = max(count_pixels_per_obj);
+        biggest_blob = (L==ind);
+     %figure,imshow(bw_img)
+     %figure,imshow(biggest_blob)
+     fd = gfd(centerobject(biggest_blob),5,10);
+     x = [x,fd'];
+     
+     
+     
+     
     %regProps = regionprops(binaryIm);
+    %feature: fourier transforms
+%     z=fft2(bw_img);
+%     z = abs(fftshift(z));
+%     figure, plot(log(abs(z)))
+%     x = [x,z(1:4)];
 
+    
     %feature 10: animal ROI histogram
      %interestPoints = detectSURFFeatures(rgb2gray(img));  
      %x = [x interestPoints];

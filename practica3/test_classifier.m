@@ -2,10 +2,20 @@
 %first we must construct the dataset in matrix form
 [X, y] = get_dataset();
 
+%feature scaling (standardization)
+mu = mean(X);
+sigma = std(X);
+for i = 1:size(X,2)
+  X(:,i) = (X(:,i) - mu(i)) / sigma(i);
+end
+
+
+
 %podem fer experiments amb altres models
 clf = fitctree(X,y);
+%clf = fitcecoc(X,y)
 
-
+X(1,:)
 
 %% provisional: aqui fer cross validation o el que sigui
 
