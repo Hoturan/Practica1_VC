@@ -12,8 +12,8 @@ end
 
 
 %podem fer experiments amb altres models
-clf = fitctree(X,y);
-%clf = fitcecoc(X,y)
+%clf = fitctree(X,y);
+clf = fitcecoc(X,y)
 
 X(1,:)
 

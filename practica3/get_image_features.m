@@ -95,15 +95,16 @@ function x = get_image_features(img,box_coord,contour)
         meanB = mean(blueChannel(bw_img));
      x = [x,[meanR meanG meanB]];
    
-     %feature 10 codi de cadena
-     
+     %feature 10 general fourier descriptor
+     %select largest object (gfd only accepts one object)
      [L, num] = bwlabel(bw_img, 8);
-        count_pixels_per_obj = sum(bsxfun(@eq,L(:),1:num));
-        [~,ind] = max(count_pixels_per_obj);
-        biggest_blob = (L==ind);
-     %figure,imshow(bw_img)
-     %figure,imshow(biggest_blob)
-     fd = gfd(centerobject(biggest_blob),5,10);
+     obj_areas = sum(bsxfun(@eq,L(:),1:num));
+     [~,ind] = max(obj_areas);
+     biggest_object = (L==ind);
+     % center the object 
+     biggest_object = centerobject(biggest_object);
+     %gfd
+     fd = gfd(biggest_object,5,8);
      x = [x,fd'];
      
      
