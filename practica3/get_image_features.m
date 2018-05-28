@@ -36,7 +36,14 @@ function x = get_image_features(img,box_coord,contour)
     compact_ratio = bwarea(compact_img)/animal_area;
     x = [x,compact_ratio];
     
-
+    %feature: ratio of compact bb area to original bb area
+    %to normalize
+    r_compact = regionprops(compact_img,'BoundingBox');
+    compact_bb = r_compact.BoundingBox;
+    compact_bb_area = (compact_bb(2)-compact_bb(1))*(compact_bb(4)-compact_bb(3));
+    ratio_compact_bb = compact_bb_area/bb_area;
+    x = [x,ratio_compact_bb];
+    
     %*********REGIONPROPS FEATURES*******************
     r = regionprops(bw_img,'MajorAxisLength','convexHull','Perimeter','Centroid','MinorAxisLength');
     
@@ -47,6 +54,10 @@ function x = get_image_features(img,box_coord,contour)
     %feature 4: minor axis length
     max_minor_axis_length = max([r.MinorAxisLength])/animal_area;
     x = [x,max_minor_axis_length];
+    
+    %excentricity
+    excentricity = max_major_axis_length/max_minor_axis_length;
+    x = [x,excentricity];
     
     %feature 5: difference animal area vs convex hulls areas
     sum_convex_hulls_area = sum(cellfun(@(ch) polyarea(ch(:,1),ch(:,2)),{r.ConvexHull}));
