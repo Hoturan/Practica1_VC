@@ -48,12 +48,12 @@ function x = get_image_features(img,box_coord,contour)
     r = regionprops(bw_img,'MajorAxisLength','convexHull','Perimeter','Centroid','MinorAxisLength');
     
     %feature 3: major axis length
-    max_major_axis_length = max([r.MajorAxisLength])/animal_area;
-    x = [x,max_major_axis_length];
+    max_major_axis_length = max([r.MajorAxisLength]);
+    x = [x,max_major_axis_length/animal_area];
     
     %feature 4: minor axis length
-    max_minor_axis_length = max([r.MinorAxisLength])/animal_area;
-    x = [x,max_minor_axis_length];
+    max_minor_axis_length = max([r.MinorAxisLength])
+    x = [x,max_minor_axis_length/animal_area];
     
     %excentricity
     excentricity = max_major_axis_length/max_minor_axis_length;
