@@ -24,7 +24,7 @@ for i=1:size(species)
         label = species(i).name;
         y{end+1} = label;
     end
-    display(size(species,1)-i)
+    display(species(i).name)
 end
 %return values
 X = x;
