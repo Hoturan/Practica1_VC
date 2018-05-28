@@ -13,7 +13,16 @@ end
 
 %podem fer experiments amb altres models
 %clf = fitctree(X,y);
-clf = fitcecoc(X,y)
+
+%LDA va bastante bien
+%lda = fitcdiscr(X,y);
+%qda = fitcdiscr(X,y,'DiscrimType','quadratic');
+%nbKD = fitcnb(X,y, 'DistributionNames','kernel', 'Kernel','box');
+%nbGau = fitcnb(X,y);
+%mdl = fitglm(X,y);
+%tree = fitctree(X,y);
+%Mdl = fitcensemble(X,y);
+clf = fitcecoc(X,y);
 
 X(1,:)
 

@@ -104,7 +104,7 @@ function x = get_image_features(img,box_coord,contour)
      % center the object 
      biggest_object = centerobject(biggest_object);
      %gfd
-     fd = gfd(biggest_object,5,8);
+     fd = gfd(biggest_object,4,8);
      x = [x,fd'];
      
      
