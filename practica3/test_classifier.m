@@ -1,6 +1,6 @@
 
 %first we must construct the dataset in matrix form
-[X, y] = get_dataset();
+%[X, y] = get_dataset();
 
 %feature scaling (standardization)
 mu = mean(X);
@@ -15,28 +15,33 @@ end
 %clf = fitctree(X,y);
 
 %LDA va bastante bien
-%lda = fitcdiscr(X,y);
+clf = fitcdiscr(X,y);
 %qda = fitcdiscr(X,y,'DiscrimType','quadratic');
 %nbKD = fitcnb(X,y, 'DistributionNames','kernel', 'Kernel','box');
 %nbGau = fitcnb(X,y);
 %mdl = fitglm(X,y);
 %tree = fitctree(X,y);
-%Mdl = fitcensemble(X,y);
-clf = fitcecoc(X,y);
+%clf = fitcensemble(X,y);
+%clf = fitcecoc(X,y);
 
-X(1,:)
+X(1,:);
 
 %% provisional: aqui fer cross validation o el que sigui
 
 %missclassification rate
 cp = cvpartition(y,'k',10); % Stratified cross-validation
-classf = @(XTRAIN, ytrain,XTEST)(classify(XTEST,XTRAIN,ytrain));
+%classf = @(XTRAIN, ytrain,XTEST)(classify(XTEST,XTRAIN,ytrain));
+%classf = @(XTRAIN, ytrain,XTEST)
+%cvMCR = crossval('mcr',X,y,'predfun',classf,'partition',cp)
+classf = @(XTRAIN, ytrain,XTEST)(my_crossvalfun(XTRAIN,ytrain,XTEST));
 cvMCR = crossval('mcr',X,y,'predfun',classf,'partition',cp)
+
 
 %confusion matrix
 order = unique(y); % Order of the group labels
 cp = cvpartition(y,'k',10); % Stratified cross-validation
-f = @(xtr,ytr,xte,yte)confusionmat(yte,classify(xte,xtr,ytr),'order',order);
+%f = @(xtr,ytr,xte,yte)confusionmat(yte,classify(xte,xtr,ytr),'order',order);
+f = @(xtr,ytr,xte,yte)confusionmat(yte,my_crossvalfun(xtr,ytr,xte),'order',order);
 cfMat = crossval(f,X,y,'partition',cp);
 cfMat = reshape(sum(cfMat),12,12);
 %normalize matrix (in rounded percentage)
