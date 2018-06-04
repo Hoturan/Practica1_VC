@@ -16,13 +16,6 @@ end
 
 %LDA va bastante bien
 clf = fitcdiscr(X,y);
-%qda = fitcdiscr(X,y,'DiscrimType','quadratic');
-%nbKD = fitcnb(X,y, 'DistributionNames','kernel', 'Kernel','box');
-%nbGau = fitcnb(X,y);
-%mdl = fitglm(X,y);
-%tree = fitctree(X,y);
-%clf = fitcensemble(X,y);
-%clf = fitcecoc(X,y);
 
 X(1,:);
 
@@ -50,4 +43,5 @@ for r=1:12
 end
 
 cfMat
+
 

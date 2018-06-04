@@ -52,7 +52,7 @@ function x = get_image_features(img,box_coord,contour)
     x = [x,max_major_axis_length/animal_area];
     
     %feature 4: minor axis length
-    max_minor_axis_length = max([r.MinorAxisLength])
+    max_minor_axis_length = max([r.MinorAxisLength]);
     x = [x,max_minor_axis_length/animal_area];
     
     %excentricity
@@ -119,7 +119,10 @@ function x = get_image_features(img,box_coord,contour)
      x = [x,fd'];
      
      
+     %feature 11: granulumetries
      
+     %feature 12: mitjana desviacio. Parametres estadistics d'un
+     %histograma
      
     %regProps = regionprops(binaryIm);
     %feature: fourier transforms
