@@ -1,6 +1,6 @@
 
 %first we must construct the dataset in matrix form
-%[X, y] = get_dataset();
+[X, y] = get_dataset();
 
 %feature scaling (standardization)
 mu = mean(X);

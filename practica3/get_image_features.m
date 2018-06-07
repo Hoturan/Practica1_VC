@@ -3,7 +3,7 @@ function x = get_image_features(img,box_coord,contour)
 %for a certain image, we must extract features
 %this functions returns an array of features
     x = [];
-
+    
     bb_hmin = box_coord(1);
     bb_hmax = box_coord(2);
     bb_wmin = box_coord(3);
@@ -12,6 +12,9 @@ function x = get_image_features(img,box_coord,contour)
     bbheight = bb_hmax - bb_hmin;
     c_x = contour(1,:);
     c_y = contour(2,:);
+    
+    %img = histeq(img);
+    
     
     %generate bw image
     bb_img = img(bb_hmin:bb_hmax,bb_wmin:bb_wmax);
@@ -92,20 +95,19 @@ function x = get_image_features(img,box_coord,contour)
 %     x = [x,dolphin_feature];
     
     %feature 9: animal mean color
-     if size(img,3)==3
-         rgb_img = img;
-     else
-         rgb_img = cat(3, img, img, img);
-     end
-        redChannel = rgb_img(:, :, 1);
-        greenChannel = rgb_img(:, :, 2);
-        blueChannel = rgb_img(:, :, 3);
-        
-        meanR = mean(redChannel(bw_img));
-        meanG = mean(greenChannel(bw_img));
-        meanB = mean(blueChannel(bw_img));
-     x = [x,[meanR meanG meanB]];
-   
+    if size(img,3)==3
+         lab_img = rgb2lab(img);
+    else
+         lab_img = rgb2lab(cat(3, img, img, img));
+    end
+    redChannel = lab_img(:, :, 1);
+    greenChannel = lab_img(:, :, 2);
+    blueChannel = lab_img(:, :, 3);
+
+    meanR = mean(redChannel(bw_img));
+    meanG = mean(greenChannel(bw_img));
+    meanB = mean(blueChannel(bw_img));
+    
      %feature 10 general fourier descriptor
      %select largest object (gfd only accepts one object)
      [L, num] = bwlabel(bw_img, 8);
@@ -121,9 +123,37 @@ function x = get_image_features(img,box_coord,contour)
      
      %feature 11: granulumetries
      
-     %feature 12: mitjana desviacio. Parametres estadistics d'un
-     %histograma
-     
+    %feature 12: mitjana desviacio. Parametres estadistics d'un histograma
+    if size(img,3)==3
+         lab_img = rgb2lab(img);
+    else
+         lab_img = rgb2lab(cat(3, img, img, img));
+    end
+    redChannel = lab_img(:, :, 1);
+    greenChannel = lab_img(:, :, 2);
+    blueChannel = lab_img(:, :, 3);
+
+    M = [imhist(redChannel(bw_img)), imhist(greenChannel(bw_img)), imhist(blueChannel(bw_img))];
+    stdv = std(M);
+    %hist = imhist(rgb_img(bw_img));
+    x = [x,stdv];
+
+    
+    %feature 13: std in 3d histogram
+    %if size(img,3)==3
+         %rgb_img = img;
+    %else
+         %rgb_img = cat(3, img, img, img);
+    %end
+    
+    %x = [x,[meanR meanG meanB]];
+    %nelem = numel(img)/3;
+    %nbins = 5;
+    %[freq] = image_hist_RGB_3d(rgb_img, 5);
+    %freq = reshape(freq,1,nbins^3)./nelem;
+    %stdv = std(freq);
+    %x = [x,stdv];
+    
     %regProps = regionprops(binaryIm);
     %feature: fourier transforms
 %     z=fft2(bw_img);
