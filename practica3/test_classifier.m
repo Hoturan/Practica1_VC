@@ -3,11 +3,11 @@
 %[X, y] = get_dataset();
 
 %feature scaling (standardization)
-mu = mean(X);
-sigma = std(X);
-for i = 1:size(X,2)
-  X(:,i) = (X(:,i) - mu(i)) / sigma(i);
-end
+% mu = mean(X);
+% sigma = std(X);
+% for i = 1:size(X,2)
+%   X(:,i) = (X(:,i) - mu(i)) / sigma(i);
+% end
 
 
 
@@ -36,6 +36,7 @@ cp = cvpartition(y,'k',10); % Stratified cross-validation
 %f = @(xtr,ytr,xte,yte)confusionmat(yte,classify(xte,xtr,ytr),'order',order);
 f = @(xtr,ytr,xte,yte)confusionmat(yte,my_crossvalfun(xtr,ytr,xte),'order',order);
 cfMat = crossval(f,X,y,'partition',cp);
+size(sum(cfMat))
 cfMat = reshape(sum(cfMat),12,12);
 %normalize matrix (in rounded percentage)
 for r=1:12
@@ -44,4 +45,5 @@ end
 
 cfMat
 
+clf = fitcdiscr(X,y);
 
