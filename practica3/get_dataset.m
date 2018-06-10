@@ -6,7 +6,7 @@ x = [];
 y = {};
 
 species = dir('./animals');
-species(1:3) = [];
+species(1:2) = [];
 %for every species 
 for i=1:size(species)
     images = dir(fullfile('./animals',species(i).name,'*.jpg'));
