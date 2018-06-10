@@ -107,6 +107,7 @@ function x = get_image_features(img,box_coord,contour)
     meanR = mean(redChannel(bw_img));
     meanG = mean(greenChannel(bw_img));
     meanB = mean(blueChannel(bw_img));
+    x = [x,[meanR meanG meanB]];
     
      %feature 10 general fourier descriptor
      %select largest object (gfd only accepts one object)
@@ -140,19 +141,18 @@ function x = get_image_features(img,box_coord,contour)
 
     
     %feature 13: std in 3d histogram
-    %if size(img,3)==3
-         %rgb_img = img;
-    %else
-         %rgb_img = cat(3, img, img, img);
-    %end
+    if size(img,3)==3
+         rgb_img = img;
+    else
+         rgb_img = cat(3, img, img, img);
+    end
     
-    %x = [x,[meanR meanG meanB]];
-    %nelem = numel(img)/3;
-    %nbins = 5;
-    %[freq] = image_hist_RGB_3d(rgb_img, 5);
-    %freq = reshape(freq,1,nbins^3)./nelem;
-    %stdv = std(freq);
-    %x = [x,stdv];
+    nelem = numel(img)/3;
+    nbins = 5;
+    [freq] = image_hist_RGB_3d(rgb_img, 5);
+    freq = reshape(freq,1,nbins^3)./nelem;
+    stdv = std(freq);
+    x = [x,stdv];
     
     %regProps = regionprops(binaryIm);
     %feature: fourier transforms
