@@ -20,7 +20,6 @@ order = unique(y); % Order of the group labels
 cp = cvpartition(y,'k',10); % Stratified cross-validation
 f = @(xtr,ytr,xte,yte)confusionmat(yte,my_crossvalfun(xtr,ytr,xte),'order',order);
 cfMat = crossval(f,X,y,'partition',cp);
-size(sum(cfMat))
 cfMat = reshape(sum(cfMat),12,12);
 %normalize matrix (in rounded percentage)
 for r=1:12
