@@ -116,34 +116,24 @@ x = [x,avg_dist_to_centroid];
  x = [x,fd'];
 
 %% COLOR FEATURES 
-%animal mean color
 if size(img,3)==3
      lab_img = rgb2lab(img);
 else
      lab_img = rgb2lab(cat(3, img, img, img));
 end
-redChannel = lab_img(:, :, 1);
-greenChannel = lab_img(:, :, 2);
-blueChannel = lab_img(:, :, 3);
+L = lab_img(:, :, 1);
+A = lab_img(:, :, 2);
+B = lab_img(:, :, 3);
 
-meanR = mean(redChannel(bw_img));
-meanG = mean(greenChannel(bw_img));
-meanB = mean(blueChannel(bw_img));
-x = [x,[meanR meanG meanB]];
-
+%animal mean color
+meanL = mean(L(bw_img));
+meanA = mean(A(bw_img));
+meanB = mean(B(bw_img));
+x = [x,[meanL meanA meanB]];
 
 
 %mitjana desviacio. Parametres estadistics d'un histograma
-if size(img,3)==3
-     lab_img = rgb2lab(img);
-else
-     lab_img = rgb2lab(cat(3, img, img, img));
-end
-redChannel = lab_img(:, :, 1);
-greenChannel = lab_img(:, :, 2);
-blueChannel = lab_img(:, :, 3);
-
-M = [imhist(redChannel(bw_img)), imhist(greenChannel(bw_img)), imhist(blueChannel(bw_img))];
+M = [imhist(L(bw_img)), imhist(A(bw_img)), imhist(B(bw_img))];
 stdv = std(M);
 %hist = imhist(rgb_img(bw_img));
 x = [x,stdv];
