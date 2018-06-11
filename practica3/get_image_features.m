@@ -28,9 +28,25 @@ animal_area = bwarea(bw_img);
 %% GRANULOMETRIES
 
 %ratio of compact area to animal area
+u = bb_area/100000; 
+v = [];
+l = [];
+for i=1:10
+    disk_size = round(i*u*2);
+    ee = strel('disk',double(disk_size));
+    ero_img = imerode(bw_img,ee);
+    v = [v,bwarea(ero_img)];
+    cc = bwconncomp(ero_img);
+    l = [l,cc.NumObjects];
+end
+
+[~,i1] = max(abs(v(2:end)-v(1:end-1)));
+[~,i2] = max(abs(l(2:end)-l(1:end-1)));
+x = [x,i1,i2];
+    
+%to normalize
 ee = strel('disk',10);
 compact_img = imopen(bw_img,ee);
-%to normalize
 compact_ratio = bwarea(compact_img)/animal_area;
 x = [x,compact_ratio];
 
@@ -47,7 +63,11 @@ x = [x,ratio_compact_bb];
 rectangularity = animal_area / bb_area;
 x = [x,rectangularity];  
 
-r = regionprops(bw_img,'MajorAxisLength','convexHull','Perimeter','Centroid','MinorAxisLength');
+r = regionprops(bw_img,'MajorAxisLength','convexHull','Perimeter','Centroid','MinorAxisLength','Orientation');
+
+%orientation
+orientation = max([r.Orientation]);
+x = [x,orientation];
 
 %major axis length
 max_major_axis_length = max([r.MajorAxisLength]);
